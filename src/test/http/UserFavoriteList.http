@@ -1,0 +1,2 @@
+POST http://localhost:8080/api/book/favorite/list
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsbHRsIiwiaWF0IjoxNzQ5Nzk1MDY1LCJleHAiOjE3NDk4ODE0NjV9.cpJXD7UdTeMBPf2K47w1AJPbeLJHYnNwgueFqb2f6oE

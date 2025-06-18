@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .register-container {
+            background: #fff;
+            padding: 40px 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            width: 300px;
+        }
+
+        .register-container h2 {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .form-control {
+            margin-bottom: 16px;
+        }
+
+        .form-control label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        .form-control input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .register-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .register-btn:hover {
+            background-color: #218838;
+        }
+
+        .switch-link {
+            text-align: center;
+            margin-top: 12px;
+        }
+
+        .switch-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .switch-link a:hover {
+            text-decoration: underline;
+        }
+
+        .error-msg {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="register-container">
+    <h2>注册账号</h2>
+    <form id="registerForm">
+        <div class="form-control">
+            <label for="username">用户名</label>
+            <input type="text" id="username" placeholder="请输入用户名">
+        </div>
+        <div class="form-control">
+            <label for="password">密码</label>
+            <input type="password" id="password" placeholder="请输入密码">
+        </div>
+        <div class="form-control">
+            <label for="confirm">确认密码</label>
+            <input type="password" id="confirm" placeholder="请再次输入密码">
+        </div>
+        <button type="button" class="register-btn" onclick="register()">注册</button>
+        <div id="error" class="error-msg"></div>
+    </form>
+    <div class="switch-link">
+        已有账号？<a href="/login">点此登录</a>
+    </div>
+</div>
+
+<script>
+    function register() {
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const confirm = document.getElementById('confirm').value.trim();
+        const errorDiv = document.getElementById('error');
+        errorDiv.textContent = '';
+
+        if (!username || !password || !confirm) {
+            errorDiv.textContent = '请填写所有字段';
+            return;
+        }
+        if (password !== confirm) {
+            errorDiv.textContent = '两次密码不一致';
+            return;
+        }
+
+        fetch('/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                alert('注册成功，请登录');
+                window.location.href = '/login';
+            } else {
+                errorDiv.textContent = data.message || '注册失败';
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            errorDiv.textContent = '服务器错误';
+        });
+    }
+</script>
+</body>
+</html>

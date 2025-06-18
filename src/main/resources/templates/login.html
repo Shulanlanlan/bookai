@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background: #fff;
+            padding: 40px 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            width: 300px;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .form-control {
+            margin-bottom: 16px;
+        }
+
+        .form-control label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        .form-control input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .login-btn:hover {
+            background-color: #3367d6;
+        }
+
+        .error-msg {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <h2>用户登录</h2>
+    <form id="loginForm">
+        <div class="form-control">
+            <label for="username">用户名</label>
+            <input type="text" id="username" placeholder="请输入用户名">
+        </div>
+        <div class="form-control">
+            <label for="password">密码</label>
+            <input type="password" id="password" placeholder="请输入密码">
+        </div>
+        <button type="button" class="login-btn" onclick="login()">登录</button>
+        <div id="error" class="error-msg"></div>
+    </form>
+    <div class="switch-link">
+    没有账号？<a href="/register">点此注册</a>
+</div>
+</div>
+
+<script>
+    function login() {
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const errorDiv = document.getElementById('error');
+        errorDiv.textContent = '';
+
+        if (!username || !password) {
+            errorDiv.textContent = '用户名和密码不能为空';
+            return;
+        }
+
+        fetch('/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.token) {
+                alert("登录成功");
+                localStorage.setItem("token", data.token);
+                // 可跳转首页
+                window.location.href = "/";
+            } else {
+                errorDiv.textContent = data.message || "登录失败";
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            errorDiv.textContent = "服务器异常，请稍后再试";
+        });
+    }
+</script>
+</body>
+</html>
