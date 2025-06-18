@@ -91,22 +91,21 @@ alter table public.favorite
 
 在这个部分使用key，就可以使用AI功能了
 
-![image-20250617160409304](README.assets\image-20250617160409304.png)
-
+![image-20250617160409304](https://github.com/Shulanlanlan/bookai/blob/main/README.assets/image-20250617160409304.png?raw=true)
 ## application.yml
 
 确保数据库部分正确
 
-![image-20250617160646922](README.assets\image-20250617160646922.png)
+![image-20250617160646922](https://github.com/Shulanlanlan/bookai/blob/main/README.assets/image-20250617160646922.png?raw=true)
 
 ## 启动
 
-![image-20250617161108670](README.assets\image-20250617161108670.png)
+![image-20250617161108670](https://github.com/Shulanlanlan/bookai/blob/main/README.assets/image-20250617161108670.png?raw=true)
 
 # 前端
 
 前端使用vite进行启动
 
-![image-20250617161852181](README.assets\image-20250617161852181.png)
+![image-20250617161852181](https://github.com/Shulanlanlan/bookai/blob/main/README.assets/image-20250617161852181.png?raw=true)
 
 启动即可
